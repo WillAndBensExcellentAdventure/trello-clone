@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const DashboardModel = require('./schema');
+const routes = require('./routes');
 
 mongoose.connect('mongodb://localhost/newTest', { useNewUrlParser: true });
 const db = mongoose.connection;
@@ -33,6 +34,7 @@ db.once('open', () => {
 const port = 8080;
 
 const app = express();
+app.use('/', routes);
 
 app.get('/', (req, res) => res.send('Hello World!!!'));
 
