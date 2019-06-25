@@ -17,8 +17,6 @@ const DashboardSchema = new Schema({
 
 
 const UserSchema = new Schema({
-  username: { type: String, required: true, unique: true },
-  passwordHash: { type: String, required: true },
   userDashboards: [DashboardSchema],
 });
 
