@@ -16,7 +16,7 @@ db.once('open', () => {
 
 const app = express();
 
-app.use('/static', express.static(path.join(__dirname, 'public')));
+app.use('/', express.static(path.join(__dirname, '../app')));
 
 app.use(require('express-session')({
   secret: 'keyboard cat',
