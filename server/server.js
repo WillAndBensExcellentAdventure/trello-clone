@@ -2,9 +2,9 @@ const express = require('express');
 const mongoose = require('mongoose');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
+const path = require('path');
 const routes = require('./routes');
 const User = require('./schema');
-
 
 mongoose.connect('mongodb://localhost/newTest', { useNewUrlParser: true });
 const db = mongoose.connection;
@@ -15,6 +15,8 @@ db.once('open', () => {
 
 
 const app = express();
+
+app.use('/static', express.static(path.join(__dirname, 'public')));
 
 app.use(require('express-session')({
   secret: 'keyboard cat',
