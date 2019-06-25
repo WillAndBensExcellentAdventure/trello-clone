@@ -3,17 +3,23 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 
-const note = new Schema({
+const NoteSchema = new Schema({
   title: String,
   contents: [String],
 });
 
-const dashboard = new Schema({
-  user_id: String,
+const DashboardSchema = new Schema({
   title: String,
-  notes: [note],
+  notes: [NoteSchema],
 });
 
-const Dashboard = mongoose.model('Dashboard', dashboard);
 
-module.exports = Dashboard;
+const UserSchema = new Schema({
+  username: { type: String, required: true, unique: true },
+  passwordHash: { type: String, required: true },
+  userDashboards: [DashboardSchema],
+});
+
+const UsersModel = mongoose.model('Users', UserSchema);
+
+module.exports = UsersModel;
