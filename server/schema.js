@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const uniqueValidator = require('mongoose-unique-validator');
-const bcrypt = require('bcrypt');
+const passportLocalMongoose = require('passport-local-mongoose');
 
 const { Schema } = mongoose;
 
@@ -22,15 +22,9 @@ const UserSchema = new Schema({
   userDashboards: [DashboardSchema],
 });
 
-UserSchema.methods.validatePassword = function (password) {
-  return bcrypt.compareSync(password, this.passwordHash);
-};
-
-UserSchema.virtual('password').set(function (value) {
-  this.passwordHash = bcrypt.hashSync(value, 12);
-});
 
 UserSchema.plugin(uniqueValidator);
+UserSchema.plugin(passportLocalMongoose);
 
 const User = mongoose.model('Users', UserSchema);
 
