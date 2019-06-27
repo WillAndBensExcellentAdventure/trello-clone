@@ -1,0 +1,8 @@
+version: '3'
+
+services:
+  server:
+    build: ./server
+    image: node:10.16.0
+    ports:
+      - 8080:8080
