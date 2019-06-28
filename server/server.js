@@ -1,12 +1,14 @@
 const express = require('express');
 const { Pool } = require('pg');
 const uuid = require('uuid/v4');
+require('dotenv').config();
+
 
 const pool = new Pool({
-  user: 'postgres',
-  host: 'localhost',
-  database: 'trellio',
-  password: 'mypassword',
+  user: process.env.DB_USER,
+  host: process.env.DB_HOST,
+  database: process.env.DATABASE,
+  password: process.env.DB_PASSWORD,
   port: 5432,
 });
 
@@ -14,7 +16,7 @@ const testDBInsert = (request, response) => {
   const uud = uuid();
   pool.query(`INSERT INTO users (ID, username, passwordHash) VALUES ('${uud}', 'testsname', '10w8221')`, (error, results) => {
     if (error) console.log('INSERT ERROR', error);
-    
+
     response.status(200).json(results);
   });
 };
