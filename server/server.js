@@ -37,6 +37,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 require('./routes')(app, passport, db);
+require('./config/passport')(passport, db);
 
 // app.get('/', testDB);
 // app.get('/insert', testDBInsert);
