@@ -1,38 +1,38 @@
-const express = require("express");
-const mongoose = require("mongoose");
-const passport = require("passport");
-const LocalStrategy = require("passport-local").Strategy;
-const path = require("path");
-const routes = require("./routes");
-const User = require("./schema");
+const express = require('express');
+const { Pool } = require('pg');
+const uuid = require('uuid/v4');
+require('dotenv').config();
 
-mongoose.connect("mongodb://localhost/newTest", { useNewUrlParser: true });
-const db = mongoose.connection;
-db.on("error", console.error.bind(console, "Mongo connection error:"));
-db.once("open", () => {
-  console.log("connected to DB!");
+
+const pool = new Pool({
+  user: process.env.DB_USER,
+  host: process.env.DB_HOST,
+  database: process.env.DATABASE,
+  password: process.env.DB_PASSWORD,
+  port: 5432,
 });
+
+const testDBInsert = (request, response) => {
+  const uud = uuid();
+  pool.query(`INSERT INTO users (ID, username, passwordHash) VALUES ('${uud}', 'testsname', '10w8221')`, (error, results) => {
+    if (error) console.log('INSERT ERROR', error);
+
+    response.status(200).json(results);
+  });
+};
+
+const testDB = (request, response) => {
+  pool.query('SELECT * FROM users ORDER BY ID ASC', (error, results) => {
+    if (error) console.log('ERROR', error);
+    console.log(results);
+    response.status(200).json(results.rows);
+  });
+};
 
 const app = express();
 
-app.use("/", express.static(path.join(__dirname, "../app")));
-
-app.use(
-  require("express-session")({
-    secret: "keyboard cat",
-    resave: false,
-    saveUninitialized: false
-  })
-);
-
-app.use(passport.initialize());
-app.use(passport.session());
-
-passport.use(new LocalStrategy(User.authenticate()));
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
-
-app.use("/", routes);
+app.get('/', testDB);
+app.get('/insert', testDBInsert);
 
 const port = 8080;
 
