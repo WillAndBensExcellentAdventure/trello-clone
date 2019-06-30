@@ -22,14 +22,16 @@ module.exports = (app, passport, db) => {
 
   app.post('/api/login', (req, res, next) => {
     passport.authenticate('local', (err, user) => {
-      if (err) console.log(err);
-      if (user) {
+      if (err) {
+        res.json({ success: false, error: err });
+      } else if (user) {
         req.login(user, (error) => {
-          console.log('logg');
-
-          if (error) console.log(error);
+          if (error) {
+            res.json({ success: false, error: err });
+          } else {
+            res.status(200).json({ status: 'success' });
+          }
         });
-        res.status(200).json({ status: 'success' });
       }
     })(req, res, next);
   });
@@ -72,8 +74,8 @@ module.exports = (app, passport, db) => {
   app.get('/api/getDashboard', (req, res) => {
     if (req.isAuthenticated()) {
       queries.getDashboardByUserID(req.user.id, (err, result) => {
-        
-      })
+
+      });
     }
-  })
+  });
 };
