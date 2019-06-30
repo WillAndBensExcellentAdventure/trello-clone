@@ -1,3 +1,4 @@
+const uuid = require('uuid/v4');
 const db = require('./index');
 
 module.exports = {
@@ -18,14 +19,19 @@ module.exports = {
   },
 
   testQuery(req, res) {
-      console.log(req.body.username);
-      
+    console.log(req.body.username);
+
     db.query('SELECT ID, username, passwordHash FROM users WHERE username=$1', [req.body.username], (err, result) => {
       res.json(result.rows);
     });
   },
 
-//   createDashboard(req, res) {
-//       const user = req.session.user
-//   }
+  getDashboardByUserID(userID, cb) {
+    db.query('SELECT ID, title FROM dashboards WHERE user_id=$1', [req.user.id], (err, result) => cb(err, result));
+  },
+
+  createDashboard(userID, title, cb) {
+    const dashboardID = uuid();
+    db.query('INSERT INTO dashboards (ID, user_id, title) VALUES ($1, $2, $3)', [dashboardID, userID, title], (err, result) => cb(err, result, dashboardID));
+  },
 };

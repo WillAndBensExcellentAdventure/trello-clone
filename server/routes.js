@@ -54,4 +54,26 @@ module.exports = (app, passport, db) => {
       res.json({ status: 'failed', error });
     }
   });
+
+  app.get('/api/createDashboard', (req, res) => {
+    if (req.isAuthenticated()) {
+      queries.createDashboard(req.user.id, req.body.title, (err, result, dashboardID) => {
+        if (err) {
+          res.json({ succes: false, error: err });
+        } else {
+          res.json({ succes: true, dashboardID, result });
+        }
+      });
+    } else {
+      res.status(401);
+    }
+  });
+
+  app.get('/api/getDashboard', (req, res) => {
+    if (req.isAuthenticated()) {
+      queries.getDashboardByUserID(req.user.id, (err, result) => {
+        
+      })
+    }
+  })
 };
