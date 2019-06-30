@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev:server": "gulp server",
-    "dev": "concurrently \"cd app/ && npm run start\" \"cd server/ && nodemon server.js\" "
+    "dev": "docker-compose up -d && concurrently \"cd app/ && npm run start\" \"cd server/ && nodemon server.js\" "
   },
   "repository": {
     "type": "git",
