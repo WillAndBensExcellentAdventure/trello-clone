@@ -23,7 +23,7 @@ CREATE TABLE note_content(
     ID UUID PRIMARY KEY,
     note_id UUID REFERENCES note(ID) ON DELETE CASCADE,
     is_check_item BOOLEAN,
-    is_checked BOOLEAN
+    is_checked BOOLEAN,
     content VARCHAR(50)
 );
 
