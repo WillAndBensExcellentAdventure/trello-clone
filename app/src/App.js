@@ -7,6 +7,7 @@ import {
 } from "@material-ui/core";
 import { MuiThemeProvider } from "@material-ui/core/styles";
 import { red, amber } from "@material-ui/core/colors";
+import SignUpForm from "./components/SignUpForm";
 
 const theme = createMuiTheme({
   palette: {
@@ -28,7 +29,7 @@ class App extends PureComponent {
             <AppBar color="primary" position="static">
               <Typography variant="h2">This also works</Typography>
             </AppBar>
-            <Typography variant="h1">It Works!</Typography>
+            <SignUpForm />
           </div>
         </MuiThemeProvider>
       </CssBaseline>
