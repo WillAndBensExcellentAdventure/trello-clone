@@ -36,18 +36,22 @@ module.exports = (app, passport, db) => {
 
 
   app.post('/api/signup', async (req, res, next) => {
-    await new Promise((resolve, reject) => {
-      authHelpers.createUser(req, resolve);
-    });
-
-    passport.authenticate('local', (err, user, info) => {
-      if (err) console.log(err);
-      if (user) {
-        req.login(user, (error) => {
-          if (error) console.log(error);
-        });
-        res.status(200).json({ status: 'success' });
-      }
-    })(req, res, next);
+    try {
+      await authHelpers.createUser(req);
+      passport.authenticate('local', (err, user) => {
+        if (err) console.log(err);
+        if (user) {
+          req.login(user, (error) => {
+            if (error) {
+              res.json({ status: 'failed', error });
+            } else {
+              res.status(200).json({ status: 'success' });
+            }
+          });
+        }
+      })(req, res, next);
+    } catch (error) {
+      res.json({ status: 'failed', error });
+    }
   });
 };
