@@ -18,12 +18,13 @@ module.exports = {
   output: {
     path: path.join(__dirname, "dist"),
     publicPath: "/",
-    filename: "bundle.js"
+    filename: "bundle.js",
   },
   plugins: [new webpack.HotModuleReplacementPlugin()],
   devServer: {
     contentBase: path.join(__dirname, "public"),
     hot: true,
+    historyApiFallback: true,
     port: 3000,
     compress: true,
     proxy: {
