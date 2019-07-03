@@ -3,20 +3,24 @@ const queries = require('./db/queries');
 
 
 module.exports = (app, passport, db) => {
-  app.get('/api', (req, res) => {
-    res.send('worl');
+  app.get('/api/*', (req, res) => {
+    res.send(200);
   });
 
   app.get('/api/test2', (req, res) => {
     console.log('SES PASS', req.user);
   });
 
-  app.post('/api/test', (req, res, next) => {
+  app.get('/api/is-logged-in', (req, res) => {
     if (req.isAuthenticated()) {
-      res.send('authd');
-      next();
+      res.status(200).json({
+        loggedIn: true,
+        user: req.user.username,
+      });
     } else {
-      res.send('no auth');
+      res.status(200).json({
+        loggedIn: false,
+      });
     }
   });
 
@@ -27,9 +31,9 @@ module.exports = (app, passport, db) => {
       } else if (user) {
         req.login(user, (error) => {
           if (error) {
-            res.json({ success: false, error: err });
+            res.json({ success: false, error });
           } else {
-            res.status(200).json({ status: 'success' });
+            res.status(200).json({ success: true, user: user.username });
           }
         });
       }
@@ -45,9 +49,9 @@ module.exports = (app, passport, db) => {
         if (user) {
           req.login(user, (error) => {
             if (error) {
-              res.json({ status: 'failed', error });
+              res.json({ success: false, error });
             } else {
-              res.status(200).json({ status: 'success' });
+              res.status(200).json({ success: true });
             }
           });
         }
@@ -57,7 +61,12 @@ module.exports = (app, passport, db) => {
     }
   });
 
-  app.get('/api/createDashboard', (req, res) => {
+  app.get('/logout', (req, res) => {
+    req.logout();
+    res.status(200);
+  });
+
+  app.put('/api/createDashboard', (req, res) => {
     if (req.isAuthenticated()) {
       queries.createDashboard(req.user.id, req.body.title, (err, result, dashboardID) => {
         if (err) {
