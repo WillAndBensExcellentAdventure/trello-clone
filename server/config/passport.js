@@ -14,7 +14,7 @@ module.exports = (passport, db) => {
           if (res) {
             cb(null, { id: first.id, username: first.username });
           } else {
-            cb('password compare failed', false);
+            cb('Username or password incorrect', false);
           }
         });
       } else {

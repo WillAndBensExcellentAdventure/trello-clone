@@ -23,48 +23,26 @@ const styles = ({ breakpoints }) => ({
   }
 });
 
-function SignUpForm(props) {
+function LoginForm(props) {
   const [username, setUser] = useState("");
   const [password, setPassword] = useState("");
   const [redirect, setRedirect] = useState(false);
-  const [usernameError, setUsernameError] = useState("");
-  const [passwordError, setPasswordError] = useState("");
+  const [loginError, setLoginError] = useState("");
 
   const { classes } = props;
 
   function handleSubmit() {
-    Auth.signup(username, password, (isSignedUp, error) => {
+    Auth.login(username, password, (isLoggedIn, error) => {
       if (error) {
-        setUsernameError(error);
+        return setLoginError(error);
       }
-      if (isSignedUp) {
-        setRedirect(true);
+      if (isLoggedIn) {
+        return setRedirect(true);
       }
     });
   }
 
-  function handleUsernameConstraints(usernameInput) {
-    if (usernameInput.length >= 1 && usernameInput.length < 3) {
-      setUsernameError("username must be over 3 characters");
-    } else {
-      setUsernameError(false);
-    }
-    setUser(usernameInput);
-  }
-
-  function handlePasswordConstraints(passwordInput) {
-    if (passwordInput.length > 0 && passwordInput.length < 5) {
-      setPasswordError("Password must be longer than 5 characters");
-    } else {
-      setPasswordError(false);
-    }
-    setPassword(passwordInput);
-  }
-
   function handleDisableButton() {
-    if (passwordError || usernameError) {
-      return true;
-    }
     if (username.length === 0 || password.length === 0) {
       return true;
     }
@@ -73,51 +51,39 @@ function SignUpForm(props) {
 
   return (
     <div className={classes.root}>
-      <Typography>
-        This is a demo app, and does not include password recovery
-        functionality. Don't use your bank password.
-      </Typography>
-      <Typography variant="h4">Create a Trellio Account</Typography>
-      <Link to="/login">Or login to your account</Link>
+      <Typography variant="h4">Login to your Trellio Account</Typography>
+      <Link to="/signup">Or signup for Trellio</Link>
       <div className={classes.marginTop}>
         <Typography>Username</Typography>
         <TextField
-          error={usernameError}
+          error={loginError}
           variant="outlined"
           className={classes.fullWidth}
           value={username}
           onChange={e => {
-            handleUsernameConstraints(e.target.value);
+            setUser(e.target.value);
           }}
         />
       </div>
-      {usernameError.length > 0 ? (
-        <Typography
-          style={{ color: "red", position: "absolute" }}
-          variant="overline"
-        >
-          {usernameError}
-        </Typography>
-      ) : null}
       <div className={classes.marginTop}>
         <Typography>Password</Typography>
         <TextField
           type="password"
-          error={passwordError}
+          error={loginError}
           variant="outlined"
           className={classes.fullWidth}
           value={password}
           onChange={e => {
-            handlePasswordConstraints(e.target.value);
+            setPassword(e.target.value);
           }}
         />
       </div>
-      {passwordError.length > 0 ? (
+      {loginError.length > 0 ? (
         <Typography
           style={{ color: "red", position: "absolute" }}
           variant="overline"
         >
-          {passwordError}
+          {loginError}
         </Typography>
       ) : null}
 
@@ -127,11 +93,11 @@ function SignUpForm(props) {
         className={classnames(classes.fullWidth, classes.marginTop)}
         variant="contained"
       >
-        Create New Account
+        Login
       </Button>
       {redirect ? <Redirect to="/dashboard" /> : null}
     </div>
   );
 }
 
-export default withStyles(styles)(SignUpForm);
+export default withStyles(styles)(LoginForm);

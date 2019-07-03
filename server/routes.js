@@ -33,7 +33,7 @@ module.exports = (app, passport, db) => {
           if (error) {
             res.json({ success: false, error });
           } else {
-            res.status(200).json({ success: true, user });
+            res.status(200).json({ success: true, user: user.username });
           }
         });
       }
@@ -51,8 +51,6 @@ module.exports = (app, passport, db) => {
             if (error) {
               res.json({ success: false, error });
             } else {
-              console.log('SIGNUP USER: ', user);
-              
               res.status(200).json({ success: true });
             }
           });

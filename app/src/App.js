@@ -4,6 +4,7 @@ import SignUpForm from "./components/SignUpForm";
 import Layout from "./util/Layout";
 // import Axios from 'axios';
 import Auth from "./util/Auth";
+import LoginForm from "./components/LoginForm";
 
 class App extends PureComponent {
   renderJunk() {
@@ -14,19 +15,11 @@ class App extends PureComponent {
     return arr;
   }
 
-  componentDidMount() {}
-
-  isLoggedIn() {
-    Axios.get("/api/is-logged-in").then(response => {
-      if (response.data.isLoggedIn) {
-      }
-    });
-  }
-
   render() {
     return (
       <Layout>
         <Route path="/signup" component={SignUpForm} />
+        <Route path="/login" component={LoginForm} />
       </Layout>
     );
   }
