@@ -1,62 +1,139 @@
-import React, { PureComponent } from 'react';
-import { TextField, Button } from '@material-ui/core';
-import axios from 'axios';
+import React, { useState } from "react";
+import { TextField, Typography, withStyles, Button } from "@material-ui/core";
+import { Link, Redirect } from "react-router-dom";
+import classnames from "classnames";
+import Auth from "../util/Auth";
 
-export default class SignUpForm extends PureComponent {
-  constructor(props) {
-    super(props);
-    this.state = {
-      username: '',
-      password: '',
-    };
+const styles = ({ breakpoints }) => ({
+  root: {
+    position: "absolute",
+    width: "25%",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    [breakpoints.down("md")]: {
+      width: "90%"
+    }
+  },
+  marginTop: {
+    marginTop: "2rem"
+  },
+  fullWidth: {
+    width: "100%"
   }
+});
 
-  handleChange(type, e) {
-    this.setState({ [type]: e.target.value });
-  }
+function SignUpForm(props) {
+  const [username, setUser] = useState("");
+  const [password, setPassword] = useState("");
+  const [redirect, setRedirect] = useState(false);
+  const [usernameError, setUsernameError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
 
-  handleSubmit() {
-    axios.post('/api/signup', this.state).then((response) => {
-      console.log(response);
-    }).catch((err) => {
-      console.log(err);
+  const { classes } = props;
+
+  function handleSubmit() {
+    Auth.signup(username, password, (isSignedUp, error) => {
+      if (error) {
+        setUsernameError(error);
+      }
+      if (isSignedUp) {
+        setRedirect(true);
+      }
     });
   }
 
-  handleLogin() {
-    axios.post('/api/login', this.state).then((response) => {
-      console.log(response);
-    }).catch((err) => {
-      console.log(err);
-    });
+  function handleUsernameConstraints(usernameInput) {
+    // console.log('user.len', username);
+
+    if (usernameInput.length >= 1 && usernameInput.length < 3) {
+      setUsernameError("username must be over 3 characters");
+    } else {
+      setUsernameError(false);
+    }
+    setUser(usernameInput);
   }
 
-  handleTest() {
-    axios.post('/api/test', this.state).then((res) => {
-      console.log(res);
-    }).catch(err => console.log(err));
+  function handlePasswordConstraints(passwordInput) {
+    if (passwordInput.length > 0 && passwordInput.length < 5) {
+      setPasswordError("Password must be longer than 5 characters");
+    } else {
+      setPasswordError(false);
+    }
+    setPassword(passwordInput);
   }
 
-  handleTest2() {
-    axios.get('/api/test2').then((res) => {
-      console.log(res);
-    }).catch(err => console.log(err));
+  function handleDisableButton() {
+    if (passwordError || usernameError) {
+      return true;
+    }
+    if (username.length === 0 || password.length === 0) {
+      return true;
+    }
+    return false;
   }
 
-
-  render() {
-    // axios.get('/api').then(res => console.log(res));
-    return (
-      <div>
-        <TextField onChange={e => this.handleChange('username', e)} label="username" />
-        <TextField onChange={e => this.handleChange('password', e)} label="password" />
-        <Button onClick={() => this.handleSubmit()}>Submit</Button>
-        <Button onClick={() => this.handleLogin()}>Login</Button>
-
-        <Button onClick={() => this.handleTest()}>Test</Button>
-        <Button onClick={() => this.handleTest2()}>Test2</Button>
-a
+  return (
+    <div className={classes.root}>
+      <Typography>
+        This is a demo app, and does not include password recovery
+        functionality. Don't use your bank password.
+      </Typography>
+      <Typography variant="h4">Create a Trellio Account</Typography>
+      <Link to="/login">Or login to your account</Link>
+      <div className={classes.marginTop}>
+        <Typography>Username</Typography>
+        <TextField
+          error={usernameError}
+          variant="outlined"
+          className={classes.fullWidth}
+          value={username}
+          onChange={e => {
+            handleUsernameConstraints(e.target.value);
+          }}
+        />
       </div>
-    );
-  }
+      {usernameError.length > 0 ? (
+        <Typography
+          style={{ color: "red", position: "absolute" }}
+          variant="overline"
+        >
+          {usernameError}
+        </Typography>
+      ) : null}
+      <div className={classes.marginTop}>
+        <Typography>Password</Typography>
+        <TextField
+          type="password"
+          error={passwordError}
+          variant="outlined"
+          className={classes.fullWidth}
+          value={password}
+          onChange={e => {
+            handlePasswordConstraints(e.target.value);
+          }}
+        />
+      </div>
+      {passwordError.length > 0 ? (
+        <Typography
+          style={{ color: "red", position: "absolute" }}
+          variant="overline"
+        >
+          {passwordError}
+        </Typography>
+      ) : null}
+
+      <Button
+        disabled={handleDisableButton()}
+        onClick={() => handleSubmit()}
+        className={classnames(classes.fullWidth, classes.marginTop)}
+        variant="contained"
+      >
+        Create New Account
+      </Button>
+      {redirect ? <Redirect to="/dashboard" /> : null}
+    </div>
+  );
 }
+
+export default withStyles(styles)(SignUpForm);
