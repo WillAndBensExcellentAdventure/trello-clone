@@ -1,14 +1,9 @@
-import React, { PureComponent } from 'react';
-import {
-  CssBaseline,
-  Typography,
-  AppBar,
-} from '@material-ui/core';
-import { MuiThemeProvider } from '@material-ui/core/styles';
-import SignUpForm from './components/SignUpForm';
-import theme from './util/Theme';
-import Header from './components/Header';
-
+import React, { PureComponent } from "react";
+import { Route } from "react-router-dom";
+import SignUpForm from "./components/SignUpForm";
+import Layout from "./util/Layout";
+// import Axios from 'axios';
+import Auth from "./util/Auth";
 
 class App extends PureComponent {
   renderJunk() {
@@ -19,19 +14,20 @@ class App extends PureComponent {
     return arr;
   }
 
+  componentDidMount() {}
+
+  isLoggedIn() {
+    Axios.get("/api/is-logged-in").then(response => {
+      if (response.data.isLoggedIn) {
+      }
+    });
+  }
+
   render() {
     return (
-      <CssBaseline>
-        <MuiThemeProvider theme={theme}>
-          <div>
-            <Header />
-            <SignUpForm />
-            {
-              this.renderJunk()
-            }
-          </div>
-        </MuiThemeProvider>
-      </CssBaseline>
+      <Layout>
+        <Route path="/signup" component={SignUpForm} />
+      </Layout>
     );
   }
 }
