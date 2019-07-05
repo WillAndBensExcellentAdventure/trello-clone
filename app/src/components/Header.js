@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   AppBar,
   Toolbar,
@@ -8,6 +8,7 @@ import {
   withStyles
 } from "@material-ui/core";
 import { Link } from "react-router-dom";
+import { userContext } from "../util/UserContext";
 
 const styles = {
   root: {
@@ -29,6 +30,8 @@ const styles = {
 };
 
 function Header(props) {
+  const UserContext = useContext(userContext);
+
   function ElevationScroll(props) {
     const trigger = useScrollTrigger({
       threshold: 20,
@@ -45,6 +48,34 @@ function Header(props) {
     });
   }
 
+  function renderOptions() {
+    if (UserContext.state.isLoggedIn) {
+      // return <AvatarUsername />
+    }
+    return (
+      <React.Fragment>
+        <Button className={classes.button}>
+          <Link className={classes.link} to="/login">
+            Login
+          </Link>
+        </Button>
+        <Button
+          component={Typography}
+          className={classes.button}
+          variant="contained"
+        >
+          <Link
+            style={{ color: "#4669c4" }}
+            className={classes.link}
+            to="/signup"
+          >
+            Signup
+          </Link>
+        </Button>
+      </React.Fragment>
+    );
+  }
+
   const { classes } = props;
   return (
     <div>
@@ -52,28 +83,11 @@ function Header(props) {
         <AppBar className={classes.root}>
           <Toolbar>
             <Typography variant="h4" className={classes.title}>
-              <Link className={classes.title} to="/">Trellio</Link>
+              <Link className={classes.title} to="/">
+                Trellio
+              </Link>
             </Typography>
-
-            <Button className={classes.button}>
-              <Link className={classes.link} to="/login">
-                Login
-              </Link>
-            </Button>
-            <Button
-              component={Typography}
-              className={classes.button}
-              variant="contained"
-              color="#FFF"
-            >
-              <Link
-                style={{ color: "#4669c4" }}
-                className={classes.link}
-                to="/signup"
-              >
-                Signup
-              </Link>
-            </Button>
+            {renderOptions()}
           </Toolbar>
         </AppBar>
       </ElevationScroll>
