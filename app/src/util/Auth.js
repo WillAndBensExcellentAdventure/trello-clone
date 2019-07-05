@@ -11,8 +11,7 @@ export default {
 
   logout: function logout(cb) {
     Axios.get("/api/logout").then(response => {
-      this.isAuthenticated = false;
-      cb();
+      cb(response.data.success);
     });
   },
 
