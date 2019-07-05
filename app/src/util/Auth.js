@@ -35,13 +35,11 @@ export default {
       password
     }).then(response => {
       if (response.data.success) {
-        this.isAuthenticated = true;
-        this.username = response.data.user;
-        return cb(null, true, response.data.user);
+        return cb(null, true);
       }
       if (response.data.error) {
         if (response.data.error.code === "23505") {
-          return cb("User name taken", false);
+          return cb("Username taken", false);
         }
       }
       return cb("Uknown error", false);
