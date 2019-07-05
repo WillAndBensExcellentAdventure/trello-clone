@@ -1,8 +1,7 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import { TextField, Typography, withStyles, Button } from "@material-ui/core";
 import { Link, Redirect } from "react-router-dom";
 import classnames from "classnames";
-import { userContext } from "../util/UserContext";
 import Auth from "../util/Auth";
 
 const styles = ({ breakpoints }) => ({
@@ -30,29 +29,16 @@ function SignUpForm(props) {
   const [redirect, setRedirect] = useState(false);
   const [usernameError, setUsernameError] = useState("");
   const [passwordError, setPasswordError] = useState("");
-  const UserContext = useContext(userContext);
 
   const { classes } = props;
 
   function handleSubmit() {
-    Auth.signup(username, password, (error, isLoggedIn) => {
+    Auth.signup(username, password, (isSignedUp, error) => {
       if (error) {
-        return UserContext.dispatch({
-          type: "loginError",
-          payload: {
-            loginError: error,
-            isLoggedIn
-          }
-        });
+        setUsernameError(error);
       }
-      if (isLoggedIn) {
-        return UserContext.dispatch({
-          type: "loginSuccess",
-          payload: {
-            isLoggedIn,
-            username
-          }
-        });
+      if (isSignedUp) {
+        setRedirect(true);
       }
     });
   }
@@ -105,12 +91,12 @@ function SignUpForm(props) {
           }}
         />
       </div>
-      {usernameError.length > 0 || UserContext.state.loginError ? (
+      {usernameError.length > 0 ? (
         <Typography
           style={{ color: "red", position: "absolute" }}
           variant="overline"
         >
-          {usernameError || UserContext.state.loginError}
+          {usernameError}
         </Typography>
       ) : null}
       <div className={classes.marginTop}>
@@ -143,7 +129,7 @@ function SignUpForm(props) {
       >
         Create New Account
       </Button>
-      {UserContext.state.isLoggedIn ? <Redirect to="/dashboard" /> : null}
+      {redirect ? <Redirect to="/dashboard" /> : null}
     </div>
   );
 }

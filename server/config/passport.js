@@ -18,7 +18,7 @@ module.exports = (passport, db) => {
           }
         });
       } else {
-        cb('Username or password incorrect', false);
+        cb('user not found', false);
       }
     });
   }));

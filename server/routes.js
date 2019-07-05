@@ -33,7 +33,7 @@ module.exports = (app, passport, db) => {
           if (error) {
             res.json({ success: false, error });
           } else {
-            res.status(200).json({ success: true, username: user.username });
+            res.status(200).json({ success: true, user: user.username });
           }
         });
       }
@@ -63,7 +63,7 @@ module.exports = (app, passport, db) => {
 
   app.get('/logout', (req, res) => {
     req.logout();
-    res.status(200).json({ success: true });
+    res.status(200);
   });
 
   app.put('/api/createDashboard', (req, res) => {

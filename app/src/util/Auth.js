@@ -1,47 +1,62 @@
 import Axios from "axios";
 
-export default {
-  isLoggedIn: function isLoggedIn(cb) {
+class Auth {
+  constructor() {
+    this.isAuthenticated = false;
+    this.username = "";
+
+    this.isLoggedIn();
+  }
+
+  isLoggedIn() {
     Axios.get("/api/isLoggedIn").then(response => {
       if (response.data.isLoggedIn) {
-        cb(response.data.isLoggedIn);
+        this.isAuthenticated = true;
+        this.username = response.data.user.username;
       }
     });
-  },
+  }
 
-  logout: function logout(cb) {
+  logout(cb) {
     Axios.get("/api/logout").then(response => {
-      cb(response.data.success);
+      this.isAuthenticated = false;
+      cb();
     });
-  },
+  }
 
-  login: function login(username, password, cb) {
+  login(username, password, cb) {
     Axios.post("/api/login", {
       username,
       password
     }).then(response => {
       if (response.data.success) {
-        cb(null, true);
+        this.isAuthenticated = true;
+        this.user = response.data.user;
+        cb(true);
       } else {
-        cb(response.data.error, false);
+        cb(false, response.data.error);
       }
     });
-  },
+  }
 
-  signup: function signup(username, password, cb) {
+  signup(username, password, cb) {
     Axios.post("/api/signup", {
       username,
       password
     }).then(response => {
       if (response.data.success) {
-        return cb(null, true);
+        this.isAuthenticated = true;
+        this.username = response.data.user;
+        return cb(true, response.data.user);
       }
       if (response.data.error) {
         if (response.data.error.code === "23505") {
-          return cb("Username taken", false);
+          return cb(false, "User name taken");
         }
       }
-      return cb("Uknown error", false);
+      return cb(false, "Uknown error");
     });
   }
-};
+}
+
+export default new Auth();
