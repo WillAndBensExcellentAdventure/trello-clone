@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { TextField, Typography, withStyles, Button } from "@material-ui/core";
 import { Link, Redirect } from "react-router-dom";
 import classnames from "classnames";
 import Auth from "../util/Auth";
+import { userContext } from "../util/UserContext";
 
 const styles = ({ breakpoints }) => ({
   root: {
@@ -26,18 +27,28 @@ const styles = ({ breakpoints }) => ({
 function LoginForm(props) {
   const [username, setUser] = useState("");
   const [password, setPassword] = useState("");
-  const [redirect, setRedirect] = useState(false);
-  const [loginError, setLoginError] = useState("");
-
+  const UserContext = useContext(userContext);
   const { classes } = props;
 
   function handleSubmit() {
-    Auth.login(username, password, (isLoggedIn, error) => {
+    Auth.login(username, password, (error, isLoggedIn) => {
       if (error) {
-        return setLoginError(error);
+        return UserContext.dispatch({
+          type: "loginError",
+          payload: {
+            loginError: error,
+            isLoggedIn
+          }
+        });
       }
       if (isLoggedIn) {
-        return setRedirect(true);
+        return UserContext.dispatch({
+          type: "loginSuccess",
+          payload: {
+            isLoggedIn,
+            username
+          }
+        });
       }
     });
   }
@@ -49,6 +60,8 @@ function LoginForm(props) {
     return false;
   }
 
+  console.log(UserContext);
+
   return (
     <div className={classes.root}>
       <Typography variant="h4">Login to your Trellio Account</Typography>
@@ -56,7 +69,6 @@ function LoginForm(props) {
       <div className={classes.marginTop}>
         <Typography>Username</Typography>
         <TextField
-          error={loginError}
           variant="outlined"
           className={classes.fullWidth}
           value={username}
@@ -69,7 +81,6 @@ function LoginForm(props) {
         <Typography>Password</Typography>
         <TextField
           type="password"
-          error={loginError}
           variant="outlined"
           className={classes.fullWidth}
           value={password}
@@ -78,12 +89,12 @@ function LoginForm(props) {
           }}
         />
       </div>
-      {loginError.length > 0 ? (
+      {UserContext.state.loginError ? (
         <Typography
           style={{ color: "red", position: "absolute" }}
           variant="overline"
         >
-          {loginError}
+          {UserContext.state.loginError}
         </Typography>
       ) : null}
 
@@ -95,7 +106,8 @@ function LoginForm(props) {
       >
         Login
       </Button>
-      {redirect ? <Redirect to="/dashboard" /> : null}
+
+      {UserContext.state.isLoggedIn ? <Redirect to="/dashboard" /> : null}
     </div>
   );
 }
