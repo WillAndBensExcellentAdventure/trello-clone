@@ -63,7 +63,7 @@ module.exports = (app, passport, db) => {
 
   app.get('/logout', (req, res) => {
     req.logout();
-    res.status(200);
+    res.status(200).json({ success: true });
   });
 
   app.put('/api/createDashboard', (req, res) => {
