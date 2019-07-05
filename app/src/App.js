@@ -7,7 +7,6 @@ import Auth from "./util/Auth";
 import LoginForm from "./components/LoginForm";
 import Billboard from "./components/Billboard";
 import LandingPage from "./pages/LandingPage";
-import { UserProvider } from "./util/UserContext";
 
 class App extends PureComponent {
   renderJunk() {
@@ -21,14 +20,12 @@ class App extends PureComponent {
   render() {
     return (
       <Layout>
-        <UserProvider>
-          <Switch>
-            <Route path="/signup" component={SignUpForm} />
-            <Route path="/login" component={LoginForm} />
-            <Route path="/" component={LandingPage} />
-            {/* {this.renderJunk()} */}
-          </Switch>
-        </UserProvider>
+        <Switch>
+          <Route path="/signup" component={SignUpForm} />
+          <Route path="/login" component={LoginForm} />
+          <Route path="/" component={LandingPage} />
+          {/* {this.renderJunk()} */}
+        </Switch>
       </Layout>
     );
   }
