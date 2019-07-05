@@ -10,7 +10,6 @@ const styles = ({ breakpoints }) => ({
     margin: "auto",
     textAlign: "center",
     paddingTop: "7rem",
-    // border: "1px solid black",
     [breakpoints.up("md")]: {
       width: "75%"
     },
@@ -31,10 +30,10 @@ function LandingPage(props) {
             display: "flex",
             justifyContent: "space-between",
             // margin: "0.5rem",
-            alignItems: 'center'
+            alignItems: "center"
           }}
         >
-          <div style={{ textAlign: "left", width: '39%'}}>
+          <div style={{ textAlign: "left", width: "39%" }}>
             <Typography
               style={{
                 margin: "auto",
@@ -45,7 +44,7 @@ function LandingPage(props) {
               variant="h3"
             >
               <b>
-                  {/* charlie display */}
+                {/* charlie display */}
                 Trellio lets you work more collaboratively and get more done.
               </b>
             </Typography>
@@ -54,17 +53,26 @@ function LandingPage(props) {
                 marginTop: "1rem",
                 color: "white",
                 lineHeight: "2.1rem",
-                fontSize: '1.3rem',
+                fontSize: "1.3rem",
                 letterSpacing: "0.15rem",
-                // width: "90%",
                 textAlign: "left"
               }}
               variant="h5"
             >
               Trellio’s boards, lists, and cards enable you to organize and
-              prioritize your projects in a fun, flexible, and <br/> rewarding way.
+              prioritize your projects in a fun, flexible, and
+              <br />
+              rewarding way.
             </Typography>
-            <Button variant="contained" style={{ backgroundColor: "#61bd4f", width: '60%', height: '3.5rem', marginTop: '1rem' }}>
+            <Button
+              variant="contained"
+              style={{
+                backgroundColor: "#61bd4f",
+                width: "60%",
+                height: "3.5rem",
+                marginTop: "1rem"
+              }}
+            >
               Sign Up - It's Free!
             </Button>
           </div>
