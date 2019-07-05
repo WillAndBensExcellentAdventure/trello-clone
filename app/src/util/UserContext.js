@@ -11,7 +11,8 @@ const reducer = (state, action) => {
       return {
         ...state,
         isLoggedIn,
-        username
+        username,
+        loginError: undefined
       };
     case "loginError":
       return { ...state, isLoggedIn, loginError };
