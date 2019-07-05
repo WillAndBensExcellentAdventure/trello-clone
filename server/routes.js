@@ -33,7 +33,7 @@ module.exports = (app, passport, db) => {
           if (error) {
             res.json({ success: false, error });
           } else {
-            res.status(200).json({ success: true, user: user.username });
+            res.status(200).json({ success: true, username: user.username });
           }
         });
       }
