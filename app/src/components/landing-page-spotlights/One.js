@@ -45,6 +45,7 @@ function One(props) {
             Trellio lets you work more collaboratively and get more done.
           </b>
         </Typography>
+        {/* charlie text */}
         <Typography className={classes.subheader} variant="h5">
           Trellio’s boards, lists, and cards enable you to organize and
           prioritize your projects in a fun, flexible, and
