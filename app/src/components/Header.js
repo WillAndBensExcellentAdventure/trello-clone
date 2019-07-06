@@ -59,11 +59,7 @@ function Header(props) {
             Login
           </Link>
         </Button>
-        <Button
-          component={Typography}
-          className={classes.button}
-          variant="contained"
-        >
+        <Button className={classes.button} variant="contained">
           <Link
             style={{ color: "#4669c4" }}
             className={classes.link}
