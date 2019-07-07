@@ -1,5 +1,5 @@
 import React from "react";
-import { withStyles, Typography, Button } from "@material-ui/core";
+import { withStyles } from "@material-ui/core";
 import Billboard from "../components/Billboard";
 import One from "../components/landing-page-spotlights/One";
 
