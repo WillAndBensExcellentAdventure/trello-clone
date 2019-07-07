@@ -3,9 +3,9 @@ const queries = require('./db/queries');
 
 
 module.exports = (app, passport, db) => {
-  app.get('/api/*', (req, res) => {
-    res.send(200);
-  });
+  // app.get('/api/', (req, res) => {
+  //   res.send(200);
+  // });
 
   app.get('/api/test2', (req, res) => {
     console.log('SES PASS', req.user);
@@ -14,12 +14,12 @@ module.exports = (app, passport, db) => {
   app.get('/api/is-logged-in', (req, res) => {
     if (req.isAuthenticated()) {
       res.status(200).json({
-        loggedIn: true,
-        user: req.user.username,
+        isLoggedIn: true,
+        username: req.user.username,
       });
     } else {
       res.status(200).json({
-        loggedIn: false,
+        isLoggedIn: false,
       });
     }
   });
