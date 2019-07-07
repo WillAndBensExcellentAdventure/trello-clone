@@ -13,8 +13,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(session({
   secret: 'super secrets',
-  resave: false,
+  resave: true,
   saveUninitialized: false,
+  rolling: true
 }));
 require('./config/passport')(passport, db);
 
