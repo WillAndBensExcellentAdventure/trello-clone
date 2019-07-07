@@ -43,7 +43,7 @@ function App() {
         <Route path="/signup" component={SignUpForm} />
         <Route path="/login" component={LoginForm} />
         <Route exact path="/" component={LandingPage} />
-        <Route path="/:username/dashboard/" component={Dashboard} />
+        <Route path="/:username/boards/" component={Dashboard} />
         {/* {this.renderJunk()} */}
       </Switch>
     </Layout>
