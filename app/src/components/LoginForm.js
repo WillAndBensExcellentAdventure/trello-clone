@@ -3,7 +3,7 @@ import { TextField, Typography, withStyles, Button } from "@material-ui/core";
 import { Link, Redirect } from "react-router-dom";
 import classnames from "classnames";
 import Auth from "../util/Auth";
-import { userContext } from "../util/UserContext";
+import userContext from "../util/UserContext";
 
 const styles = ({ breakpoints }) => ({
   root: {
@@ -107,7 +107,9 @@ function LoginForm(props) {
         Login
       </Button>
 
-      {UserContext.state.isLoggedIn ? <Redirect to="/dashboard" /> : null}
+      {UserContext.state.isLoggedIn ? (
+        <Redirect to={`${UserContext.state.username}/dashboard`} />
+      ) : null}
     </div>
   );
 }

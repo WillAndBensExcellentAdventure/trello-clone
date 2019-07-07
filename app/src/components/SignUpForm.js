@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 import { TextField, Typography, withStyles, Button } from "@material-ui/core";
 import { Link, Redirect } from "react-router-dom";
 import classnames from "classnames";
-import { userContext } from "../util/UserContext";
+import userContext from "../util/UserContext";
 import Auth from "../util/Auth";
 
 const styles = ({ breakpoints }) => ({
@@ -143,7 +143,9 @@ function SignUpForm(props) {
       >
         Create New Account
       </Button>
-      {UserContext.state.isLoggedIn ? <Redirect to="/dashboard" /> : null}
+      {UserContext.state.isLoggedIn ? (
+        <Redirect to={`${UserContext.state.username}/dashboard`} />
+      ) : null}
     </div>
   );
 }
