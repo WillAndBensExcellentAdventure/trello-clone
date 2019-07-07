@@ -1,11 +1,24 @@
-import React from "react";
-import Header from "../components/Header";
+import React, { useContext } from "react";
+import LoggedOutHeader from "../components/Header/LoggedOutHeader";
+import userContext from "./UserContext";
+import LoggedInHeader from "../components/Header/LoggedInHeader";
 
-export default function Layout(props) {
+function Layout(props) {
+  const UserContext = useContext(userContext);
+
+  function renderHeader() {
+    if (UserContext.state.isLoggedIn) {
+      return <LoggedInHeader />;
+    }
+    return <LoggedOutHeader />;
+  }
+
   return (
     <div>
-      <Header />
+      {renderHeader()}
       {props.children}
     </div>
   );
 }
+
+export default Layout;
