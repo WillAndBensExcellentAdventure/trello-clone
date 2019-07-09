@@ -60,8 +60,6 @@ function LoginForm(props) {
     return false;
   }
 
-  console.log(UserContext);
-
   return (
     <div className={classes.root}>
       <Typography variant="h4">Login to your Trellio Account</Typography>
@@ -108,7 +106,7 @@ function LoginForm(props) {
       </Button>
 
       {UserContext.state.isLoggedIn ? (
-        <Redirect to={`${UserContext.state.username}/dashboard`} />
+        <Redirect to={`${UserContext.state.username}/boards`} />
       ) : null}
     </div>
   );

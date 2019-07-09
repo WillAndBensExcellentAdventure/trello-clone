@@ -3,8 +3,6 @@ import Axios from "axios";
 export default {
   isLoggedIn: function isLoggedIn(cb) {
     Axios.get("/api/is-logged-in").then(response => {
-      console.log("Auth resp", response);
-
       cb(response.data);
     });
   },
