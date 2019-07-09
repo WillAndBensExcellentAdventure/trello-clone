@@ -144,7 +144,7 @@ function SignUpForm(props) {
         Create New Account
       </Button>
       {UserContext.state.isLoggedIn ? (
-        <Redirect to={`${UserContext.state.username}/dashboard`} />
+        <Redirect to={`${UserContext.state.username}/boards`} />
       ) : null}
     </div>
   );
