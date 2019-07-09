@@ -30,7 +30,8 @@ function LoginForm(props) {
   const UserContext = useContext(userContext);
   const { classes } = props;
 
-  function handleSubmit() {
+  function handleSubmit(e) {
+    e.preventDefault();
     Auth.login(username, password, (error, isLoggedIn) => {
       if (error) {
         return UserContext.dispatch({
@@ -64,50 +65,52 @@ function LoginForm(props) {
     <div className={classes.root}>
       <Typography variant="h4">Login to your Trellio Account</Typography>
       <Link to="/signup">Or signup for Trellio</Link>
-      <div className={classes.marginTop}>
-        <Typography>Username</Typography>
-        <TextField
-          variant="outlined"
-          className={classes.fullWidth}
-          value={username}
-          onChange={e => {
-            setUser(e.target.value);
-          }}
-        />
-      </div>
-      <div className={classes.marginTop}>
-        <Typography>Password</Typography>
-        <TextField
-          type="password"
-          variant="outlined"
-          className={classes.fullWidth}
-          value={password}
-          onChange={e => {
-            setPassword(e.target.value);
-          }}
-        />
-      </div>
-      {UserContext.state.loginError ? (
-        <Typography
-          style={{ color: "red", position: "absolute" }}
-          variant="overline"
+      <form onSubmit={e => handleSubmit(e)}>
+        <div className={classes.marginTop}>
+          <Typography>Username</Typography>
+          <TextField
+            variant="outlined"
+            className={classes.fullWidth}
+            value={username}
+            onChange={e => {
+              setUser(e.target.value);
+            }}
+          />
+        </div>
+        <div className={classes.marginTop}>
+          <Typography>Password</Typography>
+          <TextField
+            type="password"
+            variant="outlined"
+            className={classes.fullWidth}
+            value={password}
+            onChange={e => {
+              setPassword(e.target.value);
+            }}
+          />
+        </div>
+        {UserContext.state.loginError ? (
+          <Typography
+            style={{ color: "red", position: "absolute" }}
+            variant="overline"
+          >
+            {UserContext.state.loginError}
+          </Typography>
+        ) : null}
+
+        <Button
+          disabled={handleDisableButton()}
+          onClick={() => handleSubmit()}
+          className={classnames(classes.fullWidth, classes.marginTop)}
+          variant="contained"
         >
-          {UserContext.state.loginError}
-        </Typography>
-      ) : null}
+          Login
+        </Button>
 
-      <Button
-        disabled={handleDisableButton()}
-        onClick={() => handleSubmit()}
-        className={classnames(classes.fullWidth, classes.marginTop)}
-        variant="contained"
-      >
-        Login
-      </Button>
-
-      {UserContext.state.isLoggedIn ? (
-        <Redirect to={`${UserContext.state.username}/boards`} />
-      ) : null}
+        {UserContext.state.isLoggedIn ? (
+          <Redirect to={`/${UserContext.state.username}/boards`} />
+        ) : null}
+      </form>
     </div>
   );
 }

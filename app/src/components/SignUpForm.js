@@ -27,14 +27,14 @@ const styles = ({ breakpoints }) => ({
 function SignUpForm(props) {
   const [username, setUser] = useState("");
   const [password, setPassword] = useState("");
-  const [redirect, setRedirect] = useState(false);
   const [usernameError, setUsernameError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const UserContext = useContext(userContext);
 
   const { classes } = props;
 
-  function handleSubmit() {
+  function handleSubmit(e) {
+    e.preventDefault();
     Auth.signup(username, password, (error, isLoggedIn) => {
       if (error) {
         return UserContext.dispatch({
@@ -93,59 +93,61 @@ function SignUpForm(props) {
       </Typography>
       <Typography variant="h4">Create a Trellio Account</Typography>
       <Link to="/login">Or login to your account</Link>
-      <div className={classes.marginTop}>
-        <Typography>Username</Typography>
-        <TextField
-          error={usernameError}
-          variant="outlined"
-          className={classes.fullWidth}
-          value={username}
-          onChange={e => {
-            handleUsernameConstraints(e.target.value);
-          }}
-        />
-      </div>
-      {usernameError.length > 0 || UserContext.state.loginError ? (
-        <Typography
-          style={{ color: "red", position: "absolute" }}
-          variant="overline"
-        >
-          {usernameError || UserContext.state.loginError}
-        </Typography>
-      ) : null}
-      <div className={classes.marginTop}>
-        <Typography>Password</Typography>
-        <TextField
-          type="password"
-          error={passwordError}
-          variant="outlined"
-          className={classes.fullWidth}
-          value={password}
-          onChange={e => {
-            handlePasswordConstraints(e.target.value);
-          }}
-        />
-      </div>
-      {passwordError.length > 0 ? (
-        <Typography
-          style={{ color: "red", position: "absolute" }}
-          variant="overline"
-        >
-          {passwordError}
-        </Typography>
-      ) : null}
+      <form onSubmit={e => handleSubmit(e)}>
+        <div className={classes.marginTop}>
+          <Typography>Username</Typography>
+          <TextField
+            error={usernameError}
+            variant="outlined"
+            className={classes.fullWidth}
+            value={username}
+            onChange={e => {
+              handleUsernameConstraints(e.target.value);
+            }}
+          />
+        </div>
+        {usernameError.length > 0 || UserContext.state.loginError ? (
+          <Typography
+            style={{ color: "red", position: "absolute" }}
+            variant="overline"
+          >
+            {usernameError || UserContext.state.loginError}
+          </Typography>
+        ) : null}
+        <div className={classes.marginTop}>
+          <Typography>Password</Typography>
+          <TextField
+            type="password"
+            error={passwordError}
+            variant="outlined"
+            className={classes.fullWidth}
+            value={password}
+            onChange={e => {
+              handlePasswordConstraints(e.target.value);
+            }}
+          />
+        </div>
+        {passwordError.length > 0 ? (
+          <Typography
+            style={{ color: "red", position: "absolute" }}
+            variant="overline"
+          >
+            {passwordError}
+          </Typography>
+        ) : null}
 
-      <Button
-        disabled={handleDisableButton()}
-        onClick={() => handleSubmit()}
-        className={classnames(classes.fullWidth, classes.marginTop)}
-        variant="contained"
-      >
-        Create New Account
-      </Button>
-      {UserContext.state.isLoggedIn ? (
-        <Redirect to={`${UserContext.state.username}/boards`} />
-      ) : null}
+        <Button
+          disabled={handleDisableButton()}
+          onClick={() => handleSubmit()}
+          className={classnames(classes.fullWidth, classes.marginTop)}
+          variant="contained"
+        >
+          Create New Account
+        </Button>
+        {UserContext.state.isLoggedIn ? (
+          <Redirect to={`/${UserContext.state.username}/boards`} />
+        ) : null}
+      </form>
     </div>
   );
 }
