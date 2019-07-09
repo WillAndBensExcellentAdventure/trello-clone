@@ -3,7 +3,7 @@ import { withStyles } from "@material-ui/core";
 
 const styles = ({ breakpoints }) => ({
   root: {
-    background: "linear-gradient(to bottom right, #0c76c0, #4669c4)",
+    background: "linear-gradient(to right, #0c76c0, #4669c4)",
     // backgroundColor: 'black',
     width: "100%",
     height: "600px",

@@ -33,4 +33,4 @@ export function UserProvider(props) {
   );
 }
 
-export { userContext };
+export default userContext;

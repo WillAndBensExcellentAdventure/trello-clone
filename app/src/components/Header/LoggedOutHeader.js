@@ -1,14 +1,13 @@
-import React, { useContext } from "react";
+import React from "react";
 import {
   AppBar,
   Toolbar,
   Typography,
-  Button,
   useScrollTrigger,
   withStyles
 } from "@material-ui/core";
 import { Link } from "react-router-dom";
-import { userContext } from "../util/UserContext";
+import LoginSignupButtons from "./LoginSignupButtons";
 
 const styles = {
   root: {
@@ -18,20 +17,11 @@ const styles = {
   title: {
     flexGrow: 1,
     textDecoration: "none",
-    color: "white"
-  },
-  link: {
-    textDecoration: "none",
-    color: "white"
-  },
-  button: {
-    fontFamily: "Arial"
+    color: "#FFF"
   }
 };
 
-function Header(props) {
-  const UserContext = useContext(userContext);
-
+function LoggedOutHeader(props) {
   function ElevationScroll(props) {
     const trigger = useScrollTrigger({
       threshold: 20,
@@ -48,35 +38,8 @@ function Header(props) {
     });
   }
 
-  function renderOptions() {
-    if (UserContext.state.isLoggedIn) {
-      // return <AvatarUsername />
-    }
-    return (
-      <React.Fragment>
-        <Button className={classes.button}>
-          <Link className={classes.link} to="/login">
-            Login
-          </Link>
-        </Button>
-        <Button
-          component={Typography}
-          className={classes.button}
-          variant="contained"
-        >
-          <Link
-            style={{ color: "#4669c4" }}
-            className={classes.link}
-            to="/signup"
-          >
-            Signup
-          </Link>
-        </Button>
-      </React.Fragment>
-    );
-  }
-
   const { classes } = props;
+
   return (
     <div>
       <ElevationScroll>
@@ -87,7 +50,7 @@ function Header(props) {
                 Trellio
               </Link>
             </Typography>
-            {renderOptions()}
+            <LoginSignupButtons />
           </Toolbar>
         </AppBar>
       </ElevationScroll>
@@ -95,4 +58,4 @@ function Header(props) {
   );
 }
 
-export default withStyles(styles)(Header);
+export default withStyles(styles)(LoggedOutHeader);
