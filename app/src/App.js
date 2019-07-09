@@ -7,6 +7,7 @@ import LandingPage from "./pages/LandingPage";
 import Dashboard from "./pages/Dashboard";
 import userContext from "./util/UserContext";
 import Auth from "./util/Auth";
+import PrivateRoute from "./util/PrivateRoute";
 
 function App() {
   const UserContext = useContext(userContext);
@@ -43,7 +44,7 @@ function App() {
         <Route path="/signup" component={SignUpForm} />
         <Route path="/login" component={LoginForm} />
         <Route exact path="/" component={LandingPage} />
-        <Route path="/:username/boards/" component={Dashboard} />
+        <PrivateRoute path="/:username/boards/" component={Dashboard} />
         {/* {this.renderJunk()} */}
       </Switch>
     </Layout>
