@@ -139,6 +139,7 @@ function SignUpForm(props) {
         <Button
           disabled={handleDisableButton()}
           onClick={() => handleSubmit()}
+          type="submit"
           className={classnames(classes.fullWidth, classes.marginTop)}
           variant="contained"
         >

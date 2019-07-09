@@ -100,6 +100,7 @@ function LoginForm(props) {
 
         <Button
           disabled={handleDisableButton()}
+          type="submit"
           onClick={() => handleSubmit()}
           className={classnames(classes.fullWidth, classes.marginTop)}
           variant="contained"
