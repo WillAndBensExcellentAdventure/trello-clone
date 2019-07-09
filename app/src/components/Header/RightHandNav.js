@@ -1,9 +1,8 @@
-import React, { useContext } from "react";
+import React from "react";
 import AddIcon from "@material-ui/icons/Add";
 import InfoIcon from "@material-ui/icons/InfoOutlined";
 import BellIcon from "@material-ui/icons/NotificationsOutlined";
-import { Button, withStyles, Avatar, Typography } from "@material-ui/core";
-import userContext from "../../util/UserContext";
+import { Button, withStyles } from "@material-ui/core";
 import AvatarDropDownMenu from "./AvatarDropDownMenu";
 
 const styles = ({ breakpoints }) => ({
@@ -24,13 +23,11 @@ const styles = ({ breakpoints }) => ({
   icon: {
     width: "32px",
     lineHeight: "32px"
-  },
- 
+  }
 });
 
 function RightHandNav(props) {
   const { classes } = props;
-  const UserContext = useContext(userContext);
   return (
     <div className={classes.root}>
       <Button size="small" className={classes.button}>
