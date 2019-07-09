@@ -17,7 +17,9 @@ const styles = ({ breakpoints }) => ({
   },
   title: {
     textDecoration: "none",
-    color: "#FFF"
+    color: "#FFF",
+    position: "absolute",
+    top: "0.25rem"
   }
 });
 

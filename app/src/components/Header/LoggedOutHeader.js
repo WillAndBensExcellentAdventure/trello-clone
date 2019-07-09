@@ -17,7 +17,7 @@ const styles = {
   title: {
     flexGrow: 1,
     textDecoration: "none",
-    color: "white"
+    color: "#FFF"
   }
 };
 

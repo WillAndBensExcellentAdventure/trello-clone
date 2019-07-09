@@ -10,7 +10,7 @@ import {
 import userContext from "../../util/UserContext";
 import Auth from "../../util/Auth";
 
-const styles = ({ breakpoints }) => ({
+const styles = ({ breakpoints, palette }) => ({
   avatar: {
     height: "32px",
     width: "32px",
@@ -34,6 +34,9 @@ const styles = ({ breakpoints }) => ({
     textAlign: "center",
     color: "gray",
     padding: "0.25rem"
+  },
+  menuItem: {
+    color: palette.primary.dark
   }
 });
 
@@ -89,9 +92,9 @@ function AvatarDropDownMenu(props) {
           {UserContext.state.username}
         </Typography>
         <Divider />
-        <MenuItem>Profile</MenuItem>
-        <MenuItem>Cards</MenuItem>
-        <MenuItem>Settings</MenuItem>
+        <MenuItem className={classes.menuItem}>Profile</MenuItem>
+        <MenuItem className={classes.menuItem}>Cards</MenuItem>
+        <MenuItem className={classes.menuItem}>Settings</MenuItem>
         <Divider />
         <MenuItem onClick={handleLogout}>Logout</MenuItem>
       </Menu>
