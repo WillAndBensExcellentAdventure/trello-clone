@@ -28,7 +28,7 @@
     "gulp": "^4.0.2",
     "mocha": "^6.1.4",
     "prettier": "1.18.2",
-    "webpack-cli": "^3.3.5"
+    "webpack-cli": "^3.3.12"
   },
   "dependencies": {}
 }
